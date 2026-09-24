@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PatBO — Planejamento Reverso</title>
+    <meta name="description" content="Painel de Planejamento Reverso PCP PatBO - Alto Verão Resort 2027">
+    <link rel="icon" type="image/png" href="favicon-large.png">
+    <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --navy: #1a2744;
+            --navy-dark: #0f1a2e;
+            --cream: #f7f3ee;
+            --cream-warm: #efe8de;
+            --sand: #d4c5b0;
+            --gold: #b8975a;
+            --charcoal: #2c2c2c;
+            --text-dark: #1a1a1a;
+            --text-soft: #5a5a5a;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--navy-dark);
+            color: var(--text-dark);
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* ============ HOMEPAGE LAYOUT ============ */
+        .homepage {
+            display: grid;
+            grid-template-columns: 42% 58%;
+            height: 100vh;
+            position: relative;
+            transform-origin: center;
+            transition: transform 0.85s cubic-bezier(0.7, 0, 0.2, 1), filter 0.55s ease;
+        }
+
+        body.is-transitioning .homepage {
+            transform: scale(1.025);
+            filter: brightness(0.82) saturate(0.8);
+        }
+
+        /* Left Panel */
+        .home-left {
+            background: var(--cream);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 56px 60px 40px;
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+        }
+
+        .home-left::after {
+            content: '';
+            position: absolute;
+            width: 420px;
+            height: 420px;
+            right: -260px;
+            bottom: -250px;
+            border: 1px solid rgba(184,151,90,0.35);
+            border-radius: 50%;
+            box-shadow: 0 0 0 42px rgba(184,151,90,0.06), 0 0 0 86px rgba(184,151,90,0.035);
+            pointer-events: none;
+        }
+
+        .logo {
+            margin-bottom: 0;
+        }
+
+        .logo-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 68px;
+            font-weight: 300;
+            line-height: 0.85;
+            color: var(--charcoal);
+            letter-spacing: 4px;
+        }
+
+        .logo-text span {
+            font-weight: 700;
+            font-size: 72px;
+        }
+
+        .home-center {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 32px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge-label {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 22px;
+            border: 1.5px solid var(--charcoal);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            width: fit-content;
+            transition: all 0.3s ease;
+        }
+
+        .badge-label:hover {
+            background: var(--charcoal);
+            color: var(--cream);
+        }
+
+        .home-heading {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 38px;
+            font-weight: 400;
+            line-height: 1.2;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+            max-width: 380px;
+        }
+
+        .home-heading em {
+            font-style: italic;
+            color: var(--gold);
+        }
+
+        .home-desc {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-soft);
+            max-width: 340px;
+        }
+
+        .home-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .home-topics span {
+            padding: 7px 10px;
+            border: 1px solid rgba(26,39,68,0.14);
+            border-radius: 100px;
+            color: var(--navy);
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+        }
+
+        .btn-iniciar {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 40px;
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            width: fit-content;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-iniciar::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .btn-iniciar:hover {
+            background: var(--navy-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(26,39,68,0.35);
+        }
+
+        .btn-iniciar:hover::before { left: 100%; }
+        .btn-iniciar:active { transform: translateY(0); }
+
+        .btn-iniciar.is-loading {
+            background: var(--navy-dark);
+            min-width: 192px;
+            justify-content: center;
+        }
+
+        .btn-arrow {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-iniciar:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+
+        /* Footer */
+        .home-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .home-footer p {
+            font-size: 11px;
+            color: var(--text-soft);
+            letter-spacing: 0.5px;
+        }
+
+        .footer-line {
+            flex: 1;
+            height: 1px;
+            background: var(--sand);
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .footer-signature {
+            font-family: 'Allura', cursive;
+            position: absolute;
+            left: 50%;
+            bottom: 1px;
+            font-size: 22px;
+            line-height: 1;
+            color: var(--gold);
+            white-space: nowrap;
+            transform: translateX(-50%);
+            text-shadow: 0 1px 12px rgba(184,151,90,0.16);
+        }
+
+        .collection-tag {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        /* Right Panel - Video */
+        .home-right {
+            position: relative;
+            overflow: hidden;
+            background: var(--navy-dark);
+        }
+
+        .home-right video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(110deg, rgba(15,26,46,0.58), rgba(15,26,46,0.08) 56%, rgba(15,26,46,0.28));
+            pointer-events: none;
+        }
+
+        .video-frame {
+            position: absolute;
+            inset: 24px;
+            border: 1px solid rgba(255,255,255,0.28);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .img-overlay {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            text-align: right;
+            z-index: 2;
+        }
+
+        .img-overlay p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            font-style: italic;
+            color: rgba(255,255,255,0.75);
+            text-shadow: 0 1px 12px rgba(0,0,0,0.4);
+        }
+
+        /* ============ 3D TRANSITION ============ */
+        .transition-scene { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1000; pointer-events: none; opacity: 0; perspective: 1200px; }
+        .transition-scene.active { pointer-events: all; opacity: 1; }
+        .transition-wash { position: fixed; inset: 0; z-index: 998; opacity: 0; pointer-events: none; background: radial-gradient(circle at 50% 50%, rgba(212,197,176,0.25), transparent 36%), var(--navy-dark); transition: opacity 0.45s ease; }
+        .transition-wash.active { opacity: 1; }
+        .fold-panel { position: absolute; top: 0; width: 50%; height: 100%; backface-visibility: hidden; transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1); overflow: hidden; box-shadow: 0 0 0 rgba(0,0,0,0); }
+        .fold-left { left: 0; transform-origin: left center; background: var(--cream); }
+        .fold-right { right: 0; transform-origin: right center; background: var(--navy-dark); }
+        .transition-scene.active .fold-left { transform: rotateY(-105deg); box-shadow: 24px 0 42px rgba(0,0,0,0.22); }
+        .transition-scene.active .fold-right { transform: rotateY(105deg); box-shadow: -24px 0 42px rgba(0,0,0,0.22); }
+        .fold-left-inner { width: 200%; height: 100%; background: var(--cream); display: flex; align-items: center; justify-content: center; }
+        .fold-right-inner { width: 200%; height: 100%; margin-left: -100%; background: var(--navy-dark); display: flex; align-items: center; justify-content: center; }
+        .reveal-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 999; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 28px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; overflow: hidden; }
+        .reveal-layer::before, .reveal-layer::after { content: ''; position: absolute; width: 62vmax; height: 62vmax; border: 1px solid rgba(212,197,176,0.16); border-radius: 50%; transform: scale(0.75); opacity: 0; }
+        .reveal-sweep { position: absolute; width: 130vmax; height: 16px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transform: rotate(-24deg) translateX(-40%); filter: blur(1px); }
+        .reveal-layer.active .reveal-sweep { animation: sweep 1.1s cubic-bezier(0.6, 0, 0.2, 1) 0.22s forwards; }
+        .reveal-layer::before { animation: orbit 2s ease-out 0.3s forwards; }
+        .reveal-layer::after { width: 42vmax; height: 42vmax; animation: orbit 1.7s ease-out 0.48s forwards; }
+        .reveal-layer.active { opacity: 1; pointer-events: all; }
+        .reveal-logo { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: var(--cream); letter-spacing: 4px; opacity: 0; transform: scale(0.9); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.5s; }
+        .reveal-layer.active .reveal-logo { opacity: 1; transform: scale(1); }
+        .reveal-logo span { font-weight: 700; }
+        .reveal-bar-track { width: 240px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 1px; overflow: hidden; opacity: 0; transition: opacity 0.4s ease 0.7s; }
+        .reveal-layer.active .reveal-bar-track { opacity: 1; }
+        .reveal-bar-fill { width: 0%; height: 100%; background: var(--gold); border-radius: 1px; transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1) 0.8s; }
+        .reveal-layer.active .reveal-bar-fill { width: 100%; }
+        .reveal-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.3); opacity: 0; transition: opacity 0.4s ease 0.7s; }
+        .reveal-layer.active .reveal-label { opacity: 1; }
+        @keyframes orbit { 0% { opacity: 0; transform: scale(0.7) rotate(0deg); } 25% { opacity: 1; } 100% { opacity: 0; transform: scale(1.22) rotate(24deg); } }
+        @keyframes sweep { 0% { opacity: 0; transform: rotate(-24deg) translateX(-45%); } 20% { opacity: 0.75; } 100% { opacity: 0; transform: rotate(-24deg) translateX(45%); } }
+
+        /* ============ ENTRANCE ANIMATIONS ============ */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .anim-1 { animation: slideUp 0.9s 0.15s cubic-bezier(0.4, 0, 0.2, 1) both; }
+        .anim-2 { animation: slideUp 0.9s 0.3s cubic-bezier(0.4, 0, 0.2, 1) both; }
+        .anim-3 { animation: slideUp 0.9s 0.45s cubic-bezier(0.4, 0, 0.2, 1) both; }
+        .anim-4 { animation: slideUp 0.9s 0.6s cubic-bezier(0.4, 0, 0.2, 1) both; }
+        .anim-5 { animation: slideUp 0.9s 0.75s cubic-bezier(0.4, 0, 0.2, 1) both; }
+        .anim-fade { animation: fadeIn 1.2s 0.1s ease both; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .homepage {
+                grid-template-columns: 1fr;
+                grid-template-rows: 50vh 50vh;
+            }
+            .home-left {
+                padding: 32px 28px 24px;
+                order: 1;
+            }
+            .home-right { order: 0; }
+            .logo-text { font-size: 48px; }
+            .logo-text span { font-size: 52px; }
+            .home-heading { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reveal Layer (behind fold) -->
+    <div class="transition-wash" id="transitionWash"></div>
+    <div class="reveal-layer" id="revealLayer">
+        <div class="reveal-sweep"></div>
+        <div class="reveal-logo">PAT<span>BO</span></div>
+        <div class="reveal-bar-track">
+            <div class="reveal-bar-fill" id="revealFill"></div>
+        </div>
+        <div class="reveal-label">Abrindo Painel de Controle</div>
+    </div>
+
+    <!-- 3D Fold Transition -->
+    <div class="transition-scene" id="transitionScene">
+        <div class="fold-panel fold-left">
+            <div class="fold-left-inner"></div>
+        </div>
+        <div class="fold-panel fold-right">
+            <div class="fold-right-inner"></div>
+        </div>
+    </div>
+
+    <!-- Homepage -->
+    <div class="homepage" id="homepage">
+        <!-- Left Panel -->
+        <div class="home-left">
+            <div class="logo anim-1">
+                <div class="logo-text">PAT<span>BO</span></div>
+            </div>
+
+            <div class="home-center">
+                <div class="badge-label anim-2">Planejamento Reverso</div>
+                <h1 class="home-heading anim-3">Planejamento Reverso <em>Alto Verão</em> & Resort 27</h1>
+                <p class="home-desc anim-4">Acompanhe os prazos, etapas produtivas e prioridades de cada ordem da coleção em um único painel.</p>
+                <div class="home-topics anim-4"><span>Produção</span><span>Prazos</span><span>Prioridades</span></div>
+                <button class="btn-iniciar anim-5" id="btnIniciar" onclick="startTransition()">
+                    <span class="btn-label">Abrir painel</span>
+                    <span class="btn-arrow">→</span>
+                </button>
+            </div>
+
+            <div class="home-footer anim-4">
+                <p>© 2026 PATBO · Todos os direitos reservados</p>
+                <div class="footer-line">
+                    <span class="footer-signature" aria-label="Assinatura: Claudio de Paiva Gomes">Claudio de Paiva Gomes</span>
+                </div>
+                <span class="collection-tag">Resort 27</span>
+            </div>
+        </div>
+
+        <!-- Right Panel - Video -->
+        <div class="home-right anim-fade">
+            <video autoplay muted loop playsinline>
+                <source src="Video - Patbo.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+            <div class="video-frame"></div>
+            <div class="img-overlay">
+                <p>Coleção Alto Verão · Resort 2027</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startTransition() {
+            const btn = document.getElementById('btnIniciar');
+            btn.style.pointerEvents = 'none';
+            btn.classList.add('is-loading');
+            btn.querySelector('.btn-label').textContent = 'Abrindo painel';
+            document.body.classList.add('is-transitioning');
+
+            document.getElementById('transitionWash').classList.add('active');
+
+            // Step 1: Show reveal layer behind
+            const reveal = document.getElementById('revealLayer');
+            reveal.classList.add('active');
+
+            // Step 2: Trigger 3D fold open (after tiny delay)
+            setTimeout(() => {
+                const scene = document.getElementById('transitionScene');
+                scene.classList.add('active');
+            }, 180);
+
+            // Step 3: Navigate after animation completes
+            setTimeout(() => {
+                window.location.href = 'Dashboard.html';
+            }, 2450);
+        }
+    </script>
+</body>
+</html>
