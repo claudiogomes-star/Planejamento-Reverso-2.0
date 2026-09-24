@@ -1064,8 +1064,13 @@
     }
 
     function normalizeRecord(record) {
+        const farolBordado = normalizaFarol(record.farol_bordado);
         return {
             ...record,
+            // A coluna AP (Farol Bordado) define se a OP possui bordado.
+            // "N/A" representa item sem bordado; qualquer outro status indica bordado.
+            farol_bordado: farolBordado,
+            divisao_produto: farolBordado === 'N/A' ? 'SEM BORDADO' : 'BORDADO',
             status_expedicao: record.status_expedicao === 'N?o Iniciado'
                 ? 'Não iniciado'
                 : record.status_expedicao
@@ -1107,7 +1112,7 @@
                 nivel_dif_costura: row[32], costura_planejado: excelDateToIso(row[33]), costura_inicio: excelDateToIso(row[34]), costura_fim: excelDateToIso(row[35]), farol_costura: normalizaFarol(row[36]), farol_costura_dias: diasDeAtraso(row[36]),
                 nivel_dif_bordado: row[37], bordado_planejado: excelDateToIso(row[38]), farol_bordado: normalizaFarol(row[41]), farol_bordado_dias: diasDeAtraso(row[41]),
                 entrega_planejada: excelDateToIso(row[42]), entrega_realizada: excelDateToIso(row[43]), farol_entrega: normalizaFarol(row[44]), farol_entrega_dias: diasDeAtraso(row[44]),
-                entregue: row[45], fase_atual: row[46], divisao_produto: row[47], status_expedicao: row[48] === 'N?o Iniciado' ? 'Não iniciado' : row[48]
+                entregue: row[45], fase_atual: row[46], status_expedicao: row[48] === 'N?o Iniciado' ? 'Não iniciado' : row[48]
             }));
     }
 
@@ -1137,11 +1142,11 @@
     }
 
     function applyRecords(records, statusText) {
-        activeRecords = records;
-        setupFilter(records);
+        activeRecords = records.map(normalizeRecord);
+        setupFilter(activeRecords);
         document.getElementById('dataStatus').textContent = statusText;
         document.getElementById('filterTag').classList.remove('visible');
-        renderDashboard(records);
+        renderDashboard(activeRecords);
     }
 
     const nextPaint = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
